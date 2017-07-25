@@ -313,8 +313,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-       // mMap.setBuildingsEnabled(true);
-       // mMap.setIndoorEnabled(true);
        // mMap.setTrafficEnabled(true);
         mMap.getUiSettings().isMyLocationButtonEnabled();
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -336,31 +334,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    /**
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==2){
-           String BaseRate = data.getStringExtra("baseRate");
-           String  Rate = data.getStringExtra("rate");
-           Toast.makeText(getApplicationContext(),"Base rate is: "+BaseRate,Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(),BaseRate.length(),Toast.LENGTH_SHORT).show();
-
-            Toast.makeText(getApplicationContext(),"rate is: "+Rate,Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(),Rate.length(),Toast.LENGTH_SHORT).show();
-
-
-            if(BaseRate != null && !BaseRate.isEmpty()){
-                baseRate = Float.valueOf(BaseRate);
-            }
-            if(Rate != null && !BaseRate.isEmpty()){
-                rate = Float.valueOf(Rate);
-            }
-
-        }
-    }
-
-    **/
 
 }
