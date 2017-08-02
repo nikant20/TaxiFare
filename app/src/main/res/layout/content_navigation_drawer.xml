@@ -48,14 +48,6 @@
         android:layout_marginBottom="75dp"
         android:weightSum="1">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabRate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end|left"
-            android:layout_margin="10dp"
-            app:backgroundTint="#FFFFFF"
-            android:src="@android:drawable/ic_menu_manage"/>
 
     </LinearLayout>
     <LinearLayout
@@ -68,16 +60,10 @@
         android:weightSum="1">
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabLocation"
+            android:id="@+id/fabLocationNavigation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:layout_margin="10dp"
-            app:backgroundTint="#FFFFFF"
-            android:visibility="gone"
             />
-
-
 
     </LinearLayout>
 </RelativeLayout>
