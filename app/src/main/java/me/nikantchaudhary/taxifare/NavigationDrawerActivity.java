@@ -1,5 +1,6 @@
 package me.nikantchaudhary.taxifare;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Criteria;
@@ -19,7 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,9 +41,10 @@ public class NavigationDrawerActivity extends AppCompatActivity
     LocationManager locationManager;
     FloatingActionButton fab;
     TextView startRide, endRide;
-    double start_latitude, start_longitude, end_latitude, end_longitude;
+    double start_latitude, start_longitude, end_latitude, end_longitude, current_latitude, current_longitude;
 
-    ArrayList<LatLng> arrayListlatLngs;
+
+    ArrayList<LatLng> arrayListlatLngs;//Declaring arraylist
     Polyline line;
 
 
@@ -53,7 +54,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_navigation_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        arrayListlatLngs = new ArrayList<LatLng>();
+        arrayListlatLngs = new ArrayList<LatLng>();//Intializing arrayList
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(map);
@@ -67,8 +68,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
                 Criteria criteria = new Criteria();
                 String bestprovider = locationManager.getBestProvider(criteria, true);
-                locationManager.getLastKnownLocation(bestprovider);
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+
                 if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
@@ -79,6 +79,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     // for ActivityCompat#requestPermissions for more details.
                     return;
                 }
+                Location location = locationManager.getLastKnownLocation(bestprovider);
+                current_latitude = location.getLatitude();
+                current_longitude = location.getLongitude();
+                LatLng latLng = new LatLng(current_latitude,current_longitude);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+
 
             }
         });
@@ -133,8 +139,10 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 Location location = locationManager.getLastKnownLocation(bestProvider);
                 end_latitude = location.getLatitude();
                 end_longitude = location.getLongitude();
-                LatLng latLng = new LatLng(end_latitude,end_longitude);
+                LatLng latLng = new LatLng(end_latitude, end_longitude);
                 arrayListlatLngs.add(latLng);
+                endRide.setVisibility(View.INVISIBLE);
+                startRide.setVisibility(View.VISIBLE);
             }
         });
 
@@ -189,13 +197,18 @@ public class NavigationDrawerActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_dayRate) {
+            Intent intent = new Intent(getApplicationContext(),DayRate.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_nightRate) {
+            Intent intent = new Intent(getApplicationContext(),NightRate.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_manual) {
+            Intent intent = new Intent(getApplicationContext(),SetFareRate.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_share) {
 
@@ -277,6 +290,5 @@ public class NavigationDrawerActivity extends AppCompatActivity
         }
         locationManager.requestLocationUpdates(bestProvider, 20000, 0, (LocationListener) this);
 
-        locationManager.removeUpdates(this);
     }
 }
